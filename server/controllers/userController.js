@@ -1,12 +1,13 @@
 const userService = require('../services/userService')
 
+
 module.exports.createUser = async (req, res) => {
   let response = {}
 
   try {
     const responseFromService = await userService.createUser(req.body)
     response.status = 200
-    response.message = 'User successfully created'
+    response.message = 'New user successfully created'
     response.body = responseFromService
   } catch (error) {
     console.error('Something went wrong in userController.js', error)
@@ -16,6 +17,7 @@ module.exports.createUser = async (req, res) => {
 
   return res.status(response.status).send(response)
 }
+
 
 module.exports.loginUser = async (req, res) => {
   let response = {}
@@ -34,13 +36,14 @@ module.exports.loginUser = async (req, res) => {
   return res.status(response.status).send(response)
 }
 
+
 module.exports.getUserProfile = async (req, res) => {
   let response = {}
 
   try {
     const responseFromService = await userService.getUserProfile(req)
     response.status = 200
-    response.message = 'Successfully got user profile data'
+    response.message = 'Successfully fetched user profile data'
     response.body = responseFromService
   } catch (error) {
     console.log('Error in userController.js')
@@ -50,6 +53,7 @@ module.exports.getUserProfile = async (req, res) => {
 
   return res.status(response.status).send(response)
 }
+
 
 module.exports.updateUserProfile = async (req, res) => {
   let response = {}
@@ -61,6 +65,42 @@ module.exports.updateUserProfile = async (req, res) => {
     response.body = responseFromService
   } catch (error) {
     console.log('Error in updateUserProfile - userController.js')
+    response.status = 400
+    response.message = error.message
+  }
+
+  return res.status(response.status).send(response)
+}
+
+
+module.exports.getUserTransactions = async (req, res) => {
+  let response = {}
+
+  try {
+    const responseFromService = await userService.getUserTransactions(req)
+    response.status = 200
+    response.message = 'Successfully fetched transactions'
+    response.body = responseFromService
+  } catch (error) {
+    console.log('Error in getUserTransactions - userController.js')
+    response.status = 400
+    response.message = error.message
+  }
+
+  return res.status(response.status).send(response)
+}
+
+
+module.exports.getUserTransactionID = async (req, res) => {
+  let response = {}
+
+  try {
+    const responseFromService = await userService.getUserTransactionID(req)
+    response.status = 200
+    response.message = 'Successfully fetched transaction details'
+    response.body = responseFromService
+  } catch (error) {
+    console.log('Error in getUserTransactionID - userController.js')
     response.status = 400
     response.message = error.message
   }

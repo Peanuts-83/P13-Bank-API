@@ -19,4 +19,17 @@ router.put(
   userController.updateUserProfile
 )
 
+router.post(
+  '/transaction',
+  tokenValidation.validateToken,
+  userController.getUserTransactions
+)
+
+router.post(
+  /^\/transaction\/TS\d{4}-\d{4}$/,
+  tokenValidation.validateToken,
+  userController.getUserTransactionID
+)
+
 module.exports = router
+

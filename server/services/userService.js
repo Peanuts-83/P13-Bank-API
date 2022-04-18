@@ -15,7 +15,8 @@ module.exports.createUser = async serviceData => {
       email: serviceData.email,
       password: hashPassword,
       firstName: serviceData.firstName,
-      lastName: serviceData.lastName
+      lastName: serviceData.lastName,
+      transactions: serviceData.transactions,
     })
 
     let result = await newUser.save()
@@ -89,6 +90,61 @@ module.exports.updateUserProfile = async serviceData => {
     }
 
     return user.toObject()
+  } catch (error) {
+    console.error('Error in userService.js', error)
+    throw new Error(error)
+  }
+}
+
+
+module.exports.getUserTransactions = async serviceData => {
+  try {
+    const jwtToken = serviceData.headers.authorization.split('Bearer')[1].trim()
+    const decodedJwtToken = jwt.decode(jwtToken)
+    console.log('JWTOKEN -', jwtToken)
+    const user = await User.findOne({ _id: decodedJwtToken.id })
+    let transactionsAll = user.transactions.map(trans => {
+      delete trans.details
+      return trans
+    })
+    if (!user) {
+      throw new Error('User not found!')
+    }
+    if (!transactionsAll) {
+      throw new Error('No transactions found!')
+    }
+    return transactionsAll.toObject()
+  } catch (error) {
+    console.error('Error in userService.js', error)
+    throw new Error(error)
+  }
+}
+
+
+module.exports.getUserTransactionID = async serviceData => {
+  console.log('getUserTransactionID STARTED');
+  try {
+    const transactionID = serviceData.url.split('transaction/')[1]
+    console.log('ID -', transactionID)
+    const jwtToken = serviceData.headers.authorization.split('Bearer')[1].trim()
+    const decodedJwtToken = jwt.decode(jwtToken)
+    const user = await User.findOne({ _id: decodedJwtToken.id })
+    let transactions = user.transactions
+    console.log('TRANSACTIONS -', transactions)
+    let transaction = transactions
+      .filter(trans => trans.id === transactionID)
+      .map(obj => obj.details)
+    transaction.unshift(transactionID)
+    console.log(transaction)
+
+    if (!user) {
+      throw new Error('User not found!')
+    }
+
+    if (!transactions) {
+      throw new Error('No transactions found!')
+    }
+    return transaction.toObject()
   } catch (error) {
     console.error('Error in userService.js', error)
     throw new Error(error)
