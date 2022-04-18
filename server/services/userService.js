@@ -101,7 +101,6 @@ module.exports.getUserTransactions = async serviceData => {
   try {
     const jwtToken = serviceData.headers.authorization.split('Bearer')[1].trim()
     const decodedJwtToken = jwt.decode(jwtToken)
-    console.log('JWTOKEN -', jwtToken)
     const user = await User.findOne({ _id: decodedJwtToken.id })
     let transactionsAll = user.transactions.map(trans => {
       delete trans.details
@@ -125,17 +124,14 @@ module.exports.getUserTransactionID = async serviceData => {
   console.log('getUserTransactionID STARTED');
   try {
     const transactionID = serviceData.url.split('transaction/')[1]
-    console.log('ID -', transactionID)
     const jwtToken = serviceData.headers.authorization.split('Bearer')[1].trim()
     const decodedJwtToken = jwt.decode(jwtToken)
     const user = await User.findOne({ _id: decodedJwtToken.id })
     let transactions = user.transactions
-    console.log('TRANSACTIONS -', transactions)
     let transaction = transactions
       .filter(trans => trans.id === transactionID)
       .map(obj => obj.details)
     transaction.unshift(transactionID)
-    console.log(transaction)
 
     if (!user) {
       throw new Error('User not found!')
@@ -145,6 +141,31 @@ module.exports.getUserTransactionID = async serviceData => {
       throw new Error('No transactions found!')
     }
     return transaction.toObject()
+  } catch (error) {
+    console.error('Error in userService.js', error)
+    throw new Error(error)
+  }
+}
+
+
+module.exports.updateUserTransactionID = async serviceData => {
+  console.log('updateUserTransactionID STARTED');
+  try {
+    const transactionID = serviceData.url.split('transaction/')[1]
+    const jwtToken = serviceData.headers.authorization.split('Bearer')[1].trim()
+    const decodedJwtToken = jwt.decode(jwtToken)
+
+    const user = User.findOneAndUpdate(
+      { _id: decodedJwtToken.id, 'transactions.id': transactionID },
+      { $set: {'transactions.$.details': serviceData.body} }
+    )
+
+    console.log('USER', user)
+    if (!user) {
+      throw new Error('Details not found!')
+    }
+
+    return user.toObject()
   } catch (error) {
     console.error('Error in userService.js', error)
     throw new Error(error)

@@ -31,5 +31,10 @@ router.post(
   userController.getUserTransactionID
 )
 
-module.exports = router
+router.put(
+  /^\/transaction\/TS\d{4}-\d{4}$/,
+  tokenValidation.validateToken,
+  userController.updateUserTransactionID
+)
 
+module.exports = router

@@ -107,3 +107,21 @@ module.exports.getUserTransactionID = async (req, res) => {
 
   return res.status(response.status).send(response)
 }
+
+
+module.exports.updateUserTransactionID = async (req, res) => {
+  let response = {}
+
+  try {
+    const responseFromService = await userService.updateUserTransactionID(req)
+    response.status = 200
+    response.message = 'Successfully updated transaction details'
+    response.body = responseFromService
+  } catch (error) {
+    console.log('Error in updateUserTransactionID - userController.js')
+    response.status = 400
+    response.message = error.message
+  }
+
+  return res.status(response.status).send(response)
+}

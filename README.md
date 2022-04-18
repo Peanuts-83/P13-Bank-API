@@ -1,6 +1,12 @@
+[![forthebadge](./made-with-nodejs.svg)](https://nodejs.org/en/)
+[![forthebadge](./made-with-javascript.svg)](https://www.mongodb.com/try/download/community)
+[![forthebadge](./use-mongodb.svg)](https://www.mongodb.com/)
+
 # Project #13 - Argent Bank API
 
 This codebase contains the code needed to run the backend for Argent Bank.
+
+*This api has been improved compared to the [initial version provided](https://github.com/OpenClassrooms-Student-Center/Project-10-Bank-API) for the project. It is recommended to use it instead of the original one in order to take advantage of all the features of the Front-end application.*
 
 ## Getting Started
 
