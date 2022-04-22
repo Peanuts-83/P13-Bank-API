@@ -19,7 +19,7 @@ router.put(
   userController.updateUserProfile
 )
 
-router.post(
+router.get(
   '/transaction',
   tokenValidation.validateToken,
   userController.getUserTransactions
@@ -29,6 +29,12 @@ router.post(
   /^\/transaction\/TS\d{4}-\d{4}$/,
   tokenValidation.validateToken,
   userController.getUserTransactionID
+)
+
+router.delete(
+  /^\/transaction\/TS\d{4}-\d{4}$/,
+  tokenValidation.validateToken,
+  userController.deleteUserTransactionID
 )
 
 router.put(

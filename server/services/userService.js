@@ -85,6 +85,7 @@ module.exports.updateUserProfile = async serviceData => {
       { new: true }
     )
 
+    console.log('USER OBJECT -', user);
     if (!user) {
       throw new Error('User not found!')
     }
@@ -121,26 +122,63 @@ module.exports.getUserTransactions = async serviceData => {
 
 
 module.exports.getUserTransactionID = async serviceData => {
-  console.log('getUserTransactionID STARTED');
+  // console.log('getUserTransactionID STARTED');
   try {
     const transactionID = serviceData.url.split('transaction/')[1]
     const jwtToken = serviceData.headers.authorization.split('Bearer')[1].trim()
     const decodedJwtToken = jwt.decode(jwtToken)
     const user = await User.findOne({ _id: decodedJwtToken.id })
+    // console.log('TR-ID -', user);
+
     let transactions = user.transactions
     let transaction = transactions
       .filter(trans => trans.id === transactionID)
-      .map(obj => obj.details)
-    transaction.unshift(transactionID)
-
+      .map(obj => obj.details)[0]
     if (!user) {
       throw new Error('User not found!')
     }
 
+    // console.log('TRANS-', transaction);
     if (!transactions) {
       throw new Error('No transactions found!')
     }
-    return transaction.toObject()
+    return transaction
+  } catch (error) {
+    console.error('Error in userService.js', error)
+    throw new Error(error)
+  }
+}
+
+
+module.exports.deleteUserTransactionID = async serviceData => {
+  // console.log('deleteUserTransactionID STARTED');
+  try {
+    const transactionID = serviceData.url.split('transaction/')[1]
+    const jwtToken = serviceData.headers.authorization.split('Bearer')[1].trim()
+    const decodedJwtToken = jwt.decode(jwtToken)
+    const user = await User.findOneAndUpdate(
+      { _id: decodedJwtToken.id },
+      {
+        $set: {
+          'transactions.$[elem].details': {
+            type: '-',
+            category: '-',
+            notes: '-',
+          }
+        }
+      },
+      {
+        useFindAndModify: false,
+        arrayFilters: [{ 'elem.id': transactionID }],
+        new: true
+      }
+    )
+
+    // console.log('TRANS-', transaction);
+    if (!user) {
+      throw new Error('No transactions found!')
+    }
+    return user.toObject()
   } catch (error) {
     console.error('Error in userService.js', error)
     throw new Error(error)
@@ -149,23 +187,36 @@ module.exports.getUserTransactionID = async serviceData => {
 
 
 module.exports.updateUserTransactionID = async serviceData => {
-  console.log('updateUserTransactionID STARTED');
+  // console.log('updateUserTransactionID STARTED');
   try {
     const transactionID = serviceData.url.split('transaction/')[1]
     const jwtToken = serviceData.headers.authorization.split('Bearer')[1].trim()
     const decodedJwtToken = jwt.decode(jwtToken)
+    // console.log('TR-ID -', transactionID, serviceData.body.data);
 
-    const user = User.findOneAndUpdate(
-      { _id: decodedJwtToken.id, 'transactions.id': transactionID },
-      { $set: {'transactions.$.details': serviceData.body} }
+    const user = await User.findOneAndUpdate(
+      { _id: decodedJwtToken.id },
+      {
+        $set: {
+          'transactions.$[elem].details': {
+            type: serviceData.body.data.newType,
+            category: serviceData.body.data.newCategory,
+            notes: serviceData.body.data.newNotes,
+          }
+        }
+      },
+      {
+        useFindAndModify: false,
+        arrayFilters: [{ 'elem.id': transactionID }],
+        new: true
+      }
     )
 
-    console.log('USER', user)
     if (!user) {
       throw new Error('Details not found!')
     }
 
-    return user.toObject()
+    return user.transactions.toObject()
   } catch (error) {
     console.error('Error in userService.js', error)
     throw new Error(error)

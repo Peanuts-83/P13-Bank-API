@@ -109,6 +109,24 @@ module.exports.getUserTransactionID = async (req, res) => {
 }
 
 
+module.exports.deleteUserTransactionID = async (req, res) => {
+  let response = {}
+
+  try {
+    const responseFromService = await userService.deleteUserTransactionID(req)
+    response.status = 200
+    response.message = 'Successfully deleted transaction details'
+    response.body = responseFromService
+  } catch (error) {
+    console.log('Error in getUserTransactionID - userController.js')
+    response.status = 400
+    response.message = error.message
+  }
+
+  return res.status(response.status).send(response)
+}
+
+
 module.exports.updateUserTransactionID = async (req, res) => {
   let response = {}
 
