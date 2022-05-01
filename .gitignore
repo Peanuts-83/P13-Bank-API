@@ -1,4 +1,6 @@
 sources
+.github
+.vscode
 # IDE files
 .idea
 
@@ -35,3 +37,5 @@ node_modules
 config/runtime.yaml
 
 .DS_Store
+.env
+.env.production.local
