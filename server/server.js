@@ -4,11 +4,16 @@ const swaggerUi = require('swagger-ui-express')
 const yaml = require('yamljs')
 const swaggerDocs = yaml.load('./swagger.yaml')
 const dbConnection = require('./database/connection')
+const compression = require('compression')
+const helmet = require('helmet')
 
 
 const app = express()
 const PORT = process.env.NODE_ENV === 'production' ?
   process.env.PORT : 3001
+
+app.use(helmet())
+app.use(compression())
 
 // Connect to the database
 dbConnection()
