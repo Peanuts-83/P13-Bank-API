@@ -1,6 +1,9 @@
 {
   "name": "argent-bank-api",
   "version": "0.0.1",
+  "engines": {
+    "node": "14.18.1"
+  },
   "private": true,
   "description": "Project #10 - Argent Bank",
   "keywords": [],
