@@ -7,7 +7,8 @@ const dbConnection = require('./database/connection')
 
 
 const app = express()
-const PORT = process.env.PORT || 3001
+const PORT = process.env.NODE_ENV === 'production' ?
+  process.env.PORT : 3001
 
 // Connect to the database
 dbConnection()
@@ -31,6 +32,7 @@ app.get('/', (req, res, next) => {
   res.send('Hello from my Express server v2!')
 })
 
+
 app.listen(PORT, () => {
-  console.log(`Server listening on http://127.0.0.1:${PORT}`)
+  console.log("Server listening on ", process.env.NODE_ENV !== 'production' ? 'http://127.0.0.1:' : `${req.protocol}://${req.get("host")}${req.originalUrl}:`, PORT)
 })
