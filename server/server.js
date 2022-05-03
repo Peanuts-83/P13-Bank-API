@@ -9,8 +9,7 @@ const helmet = require('helmet')
 
 
 const app = express()
-const PORT = process.env.NODE_ENV === 'production' ?
-  process.env.PORT : 3001
+const PORT = process.env.PORT || 3001
 
 app.use(helmet())
 app.use(compression())
