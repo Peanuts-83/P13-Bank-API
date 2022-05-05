@@ -1,6 +1,17 @@
 {
   "name": "argent-bank-api",
   "version": "0.0.1",
+  "main": "./server/server.js",
+  "scripts": {
+    "start": "node ./server/server.js",
+    "server": "node ./server/server.js",
+    "watch": "nodemon ./server/server.js",
+    "populate-db": "node ./server/scripts/populateDatabase.js",
+    "client": "cd front && npm start",
+    "install-front": "cd front && npm install",
+    "build": "cd front && npm run build",
+    "heroku-postbuild": "npm run install-front && npm run build"
+  },
   "engines": {
     "node": "14.x"
   },
@@ -9,7 +20,6 @@
   "keywords": [],
   "author": "peanuts-83",
   "license": "",
-  "main": "./server/server.js",
   "dependencies": {
     "axios": "^0.19.2",
     "bcrypt": "^5.0.0",
@@ -22,16 +32,6 @@
     "mongoose": "^5.13.14",
     "swagger-ui-express": "^4.1.4",
     "yamljs": "^0.3.0"
-  },
-  "scripts": {
-    "start": "node ./server/server.js",
-    "server": "node ./server/server.js",
-    "watch": "nodemon ./server/server.js",
-    "populate-db": "node ./server/scripts/populateDatabase.js",
-    "client": "cd front && npm start",
-    "install-front": "cd front && npm install",
-    "build": "cd front && npm run build",
-    "heroku-postbuild": "npm run install-front && npm run build"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"

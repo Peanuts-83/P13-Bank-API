@@ -29,7 +29,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use('/api/v1/user', require('./routes/userRoutes'))
 
 // SPA React target folder
-app.use(express.static('front/build'))
+// app.use(express.static('front/build'))
 
 // API Documentation
 if (process.env.NODE_ENV !== 'production') {
