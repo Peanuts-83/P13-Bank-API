@@ -9,7 +9,7 @@
   "keywords": [],
   "author": "peanuts-83",
   "license": "",
-  "main": "index.js",
+  "main": "./server/server.js",
   "dependencies": {
     "axios": "^0.19.2",
     "bcrypt": "^5.0.0",
@@ -28,7 +28,7 @@
     "server": "node ./server/server.js",
     "watch": "nodemon ./server/server.js",
     "populate-db": "node ./server/scripts/populateDatabase.js",
-    "front": "cd front && npm start",
+    "client": "cd front && npm start",
     "install-front": "cd front && npm install",
     "build": "cd front && npm run build",
     "heroku-postbuild": "npm run install-front && npm run build"
