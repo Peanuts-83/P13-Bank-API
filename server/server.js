@@ -25,11 +25,11 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-// Handle custom routes
-app.use('/api/v1/user', require('./routes/userRoutes'))
-
 // SPA React target folder
 app.use(express.static('front/build'))
+
+// Handle custom routes
+app.use('/api/v1/user', require('./routes/userRoutes'))
 
 // API Documentation
 if (process.env.NODE_ENV !== 'production') {
@@ -41,10 +41,9 @@ if (process.env.NODE_ENV !== 'production') {
 // })
 
 app.get('/*', (req,res) => {
-  res.send({msg: 'Hello from my Express server v2!'})
   res.sendFile(path.join(__dirname, '../front/build/index.html'))
 })
 
-app.listen(PORT, (req, res) => {
+app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`)
 })
