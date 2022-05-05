@@ -29,7 +29,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use('/api/v1/user', require('./routes/userRoutes'))
 
 // SPA React target folder
-// app.use(express.static('front/build'))
+app.use(express.static('front/build'))
 
 // API Documentation
 if (process.env.NODE_ENV !== 'production') {
@@ -40,10 +40,10 @@ if (process.env.NODE_ENV !== 'production') {
 //   res.send('Hello from my Express server v2!')
 // })
 
-// app.get('/*', (req,res) => {
-//   res.send({msg: 'Hello from my Express server v2!'})
-//   res.sendFile(path.join(__dirname, '../front/build/index.html'))
-// })
+app.get('/*', (req,res) => {
+  res.send({msg: 'Hello from my Express server v2!'})
+  res.sendFile(path.join(__dirname, '../front/build/index.html'))
+})
 
 app.listen(PORT, () => {
   console.log("Server listening on ", process.env.NODE_ENV !== 'production' ? `http://127.0.0.1:${PORT}` : `${req.protocol}://${req.get("host")}${req.originalUrl}:${PORT}`)
