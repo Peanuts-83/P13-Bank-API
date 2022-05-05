@@ -6,7 +6,8 @@ const swaggerDocs = yaml.load('./swagger.yaml')
 const dbConnection = require('./database/connection')
 const compression = require('compression')
 const helmet = require('helmet')
-
+const { path } = require('path')
+require('dotenv').config()
 
 const app = express()
 const PORT = process.env.PORT || 3001
@@ -27,16 +28,23 @@ app.use(express.urlencoded({ extended: true }))
 // Handle custom routes
 app.use('/api/v1/user', require('./routes/userRoutes'))
 
+// SPA React target folder
+app.use(express.static('front/build'))
+
 // API Documentation
 if (process.env.NODE_ENV !== 'production') {
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 }
 
-app.get('/', (req, res, next) => {
-  res.send('Hello from my Express server v2!')
+// app.get('/', (req, res, next) => {
+//   res.send('Hello from my Express server v2!')
+// })
+
+app.get('/*', (req,res) => {
+  res.send({msg: 'Hello from my Express server v2!'})
+  res.sendFile(path.join(__dirname, 'front/build/index.html'))
 })
 
-
 app.listen(PORT, () => {
-  console.log("Server listening on ", process.env.NODE_ENV !== 'production' ? 'http://127.0.0.1:' : `${req.protocol}://${req.get("host")}${req.originalUrl}:`, PORT)
+  console.log("Server listening on ", process.env.NODE_ENV !== 'production' ? `http://127.0.0.1:${PORT}` : `${req.protocol}://${req.get("host")}${req.originalUrl}:${PORT}`)
 })

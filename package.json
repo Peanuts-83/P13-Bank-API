@@ -24,9 +24,13 @@
     "yamljs": "^0.3.0"
   },
   "scripts": {
-    "dev:server": "nodemon ./server/server.js",
+    "server": "node ./server/server.js",
+    "watch": "nodemon ./server/server.js",
     "populate-db": "node ./server/scripts/populateDatabase.js",
-    "server": "node ./server/server.js"
+    "front": "cd front && npm start",
+    "install-front": "cd front && npm install",
+    "build-front": "cd front && npm run build",
+    "heroku-postbuild": "npm run install-front && npm run build-font"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
