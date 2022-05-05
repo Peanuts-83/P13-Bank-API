@@ -42,7 +42,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 app.get('/*', (req,res) => {
   res.send({msg: 'Hello from my Express server v2!'})
-  res.sendFile(path.join(__dirname, 'front/build/index.html'))
+  res.sendFile(path.join(__dirname, '../front/build/index.html'))
 })
 
 app.listen(PORT, () => {
