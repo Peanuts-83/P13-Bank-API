@@ -45,6 +45,6 @@ app.get('/*', (req,res) => {
   res.sendFile(path.join(__dirname, '../front/build/index.html'))
 })
 
-app.listen(PORT, () => {
-  console.log("Server listening on ", process.env.NODE_ENV !== 'production' ? `http://127.0.0.1:${PORT}` : `${req.protocol}://${req.get("host")}${req.originalUrl}:${PORT}`)
+app.listen(PORT, (req, res) => {
+  console.log(`Server listening on ${PORT}`)
 })
