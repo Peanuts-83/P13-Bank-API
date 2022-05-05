@@ -2,12 +2,12 @@
   "name": "argent-bank-api",
   "version": "0.0.1",
   "engines": {
-    "node": "14.18.1"
+    "node": "14.x"
   },
   "private": true,
   "description": "Project #10 - Argent Bank",
   "keywords": [],
-  "author": "",
+  "author": "peanuts-83",
   "license": "",
   "main": "index.js",
   "dependencies": {
@@ -30,8 +30,8 @@
     "populate-db": "node ./server/scripts/populateDatabase.js",
     "front": "cd front && npm start",
     "install-front": "cd front && npm install",
-    "build-front": "cd front && npm run build",
-    "heroku-postbuild": "npm run install-front && npm run build-front"
+    "build": "cd front && npm run build",
+    "heroku-postbuild": "npm run install-front && npm run build"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
