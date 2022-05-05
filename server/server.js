@@ -12,8 +12,8 @@ require('dotenv').config()
 const app = express()
 const PORT = process.env.PORT || 3001
 
-// app.use(helmet())
-// app.use(compression())
+app.use(helmet())
+app.use(compression())
 
 // Connect to the database
 dbConnection()
@@ -25,9 +25,6 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-// SPA React target folder
-app.use(express.static('front/build'))
-
 // Handle custom routes
 app.use('/api/v1/user', require('./routes/userRoutes'))
 
@@ -36,11 +33,9 @@ if (process.env.NODE_ENV !== 'production') {
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 }
 
-// app.get('/', (req, res, next) => {
-//   res.send('Hello from my Express server v2!')
-// })
-
-app.get('/*', (req,res) => {
+// SPA React target 
+app.use(express.static('front/build'))
+app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '../front/build/index.html'))
 })
 
