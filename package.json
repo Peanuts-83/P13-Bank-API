@@ -31,7 +31,7 @@
     "front": "cd front && npm start",
     "install-front": "cd front && npm install",
     "build-front": "cd front && npm run build",
-    "heroku-postbuild": "npm run install-front && npm run build-font"
+    "heroku-postbuild": "npm run install-front && npm run build-front"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
